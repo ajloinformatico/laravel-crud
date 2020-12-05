@@ -1,0 +1,32 @@
+version: '3.7'
+
+services:
+  servidor:
+    image: fjortegan/dwes:laravel
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    ports:
+      - "80:80"
+    volumes:
+      - ./laravel:/var/www/html/
+
+  db:
+    image: mariadb
+    restart: always
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./db-init:/docker-entrypoint-initdb.d/      
+    environment:
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: laravel
+      MYSQL_ROOT_PASSWORD: pestillo
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      - PMA_ARBITRARY=1
