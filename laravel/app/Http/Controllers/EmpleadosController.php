@@ -14,6 +14,7 @@ class EmpleadosController extends Controller
      */
     public function index()
     {
+        return view('empleados.index'); //Nombre de la carpeta y index
         //
     }
 
@@ -24,6 +25,7 @@ class EmpleadosController extends Controller
      */
     public function create()
     {
+        return view('empleados.create'); //Nombre de la carpeta y index
         //
     }
 
@@ -57,6 +59,7 @@ class EmpleadosController extends Controller
      */
     public function edit(Empleados $empleados)
     {
+        return view('empleados/edit.edit'); //Nombre de la carpeta y index
         //
     }
 
