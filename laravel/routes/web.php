@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//ACCEDIENDO A TODAS LAS FUNCIONES DEL CONTROLADOR A LA VEX
+//ACCEDIENDO A TODAS LAS FUNCIONES DEL CONTROLADOR A LA VEZ
 Route::resource('empleados','EmpleadosController');
 
 /*

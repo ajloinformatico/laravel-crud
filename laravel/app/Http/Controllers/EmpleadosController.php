@@ -14,7 +14,10 @@ class EmpleadosController extends Controller
      */
     public function index()
     {
-        return view('empleados.index'); //Nombre de la carpeta y index
+        $datos['empleados']=Empleados::paginate(5); //Almacenamos todos los datos de empleado de 5 en 5
+
+        //Le paso el array de empleados a la vista
+        return view('empleados.index', $datos); //Nombre de la carpeta y index
         //
     }
 
@@ -37,10 +40,23 @@ class EmpleadosController extends Controller
      */
     public function store(Request $request)
     {
-        $datosEmpleado = request()->all();
+        //MÉTODO MIO
+        //$datosEmpleado = request()->all(); GUARDA TODA LA INFORMACIÓN ENVIADA EN LA PETICIÓN POST
+        $datosEmpleado = request()->except('_token');//Guarda en un array todos los campos de la petición excepto el token
+
+        if($request->hasFile('Foto')){
+            $datosEmpleado['Foto']=$request->file('Foto')->store('uploads', 'public');
+            //De la información que se envia rescato 'Foto' (url) -> almacene en el directorio uploads de la carpeta publiuc
+        }
+
+        Empleados::insert($datosEmpleado); //inserta los datos del array directamente en la tabla
         return response()->json($datosEmpleado);
 
-        //
+
+        ////Método de Javi
+        //$empleado = Empleados::create(request()->except('_token')); //Crea un empl usando request
+        //return response()->json($empleado->toArray()); //devuelve un json de la instancia pasando sus atributos a array
+
 
     }
 
@@ -61,9 +77,11 @@ class EmpleadosController extends Controller
      * @param  \App\Empleados  $empleados
      * @return \Illuminate\Http\Response
      */
-    public function edit(Empleados $empleados)
+    public function edit($id)
     {
-        return view('empleados/edit.edit'); //Nombre de la carpeta y index
+        $empleado = Empleados::findOrFail($id); //Busca los empleados que tengan ese id solo hay uno
+        return view('empleados.edit', compact('empleado')); //Nombre de la carpeta y vista
+        //LLamo a la vista edit (enviando con compact() toda la información del empleado)
         //
     }
 
@@ -85,8 +103,14 @@ class EmpleadosController extends Controller
      * @param  \App\Empleados  $empleados
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Empleados $empleados)
+    public function destroy($id)
     {
+        Empleados::destroy($id); //Destruimos el registro de la tabla de empleados
+        //Lammando al método
+        //return $this->index(); //Devuelvo la vista del índex
+        //Tmbién se puede hacer redireccionando
+        return redirect('/empleados/');
+
         //
     }
 }
