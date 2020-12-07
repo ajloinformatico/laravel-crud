@@ -50,7 +50,8 @@ class EmpleadosController extends Controller
         }
 
         Empleados::insert($datosEmpleado); //inserta los datos del array directamente en la tabla
-        return response()->json($datosEmpleado);
+        return redirect('/empleados');
+        //return response()->json($datosEmpleado); //muestra una respuesta en json de los datos que habia introducido
 
 
         ////Método de Javi
@@ -92,9 +93,13 @@ class EmpleadosController extends Controller
      * @param  \App\Empleados  $empleados
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Empleados $empleados)
+    public function update(Request $request, $id)
     {
-        //
+        $datosEmpleado = request()->except(['_token','_method']); //Guardo todos los datos menos el token y
+                                                                //el método
+        Empleados::where('id',"=",$id)->update($datosEmpleado); //de la tabla empleado actualiza con los datos recibidos donde
+        //el id del empleado sea igual a
+        return redirect('empleados'); //vuelve al index
     }
 
     /**

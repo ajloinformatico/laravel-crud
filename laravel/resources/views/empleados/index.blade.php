@@ -15,7 +15,10 @@ Inicio (Despliegue de datos)
         @foreach ($empleados as $empleado) <!--Con blade hago un foreach que recorre a los empleadps-->
         <tr>
             <td>{{$loop->iteration}}</td><!--Para mostrar los números imprimo el número de la iteracción-->
-            <td>{{$empleado->Foto}}</td><!--Vamos obteniendo los campos que son los atributos del empleado-->
+            <td>
+                <!--Vamos obteniendo los campos que son los atributos del empleado-->
+                <img src="{{ asset('storage').'/'.$empleado->Foto}}" width="200px"/>
+            </td>
             <td>{{$empleado->Nombre}}</td>
             <td>{{$empleado->ApellidoPaterno}}</td>
             <td>{{$empleado->ApellidoMaterno}}</td>
