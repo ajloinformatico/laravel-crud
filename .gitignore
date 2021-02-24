@@ -3,3 +3,4 @@
 *.iml
 laravel/.bashrc
 ~$rsoCrud.docx
+.DS_Store
